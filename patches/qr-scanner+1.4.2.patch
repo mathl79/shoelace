@@ -1,0 +1,23 @@
+diff --git a/node_modules/qr-scanner/types/qr-scanner.d.ts b/node_modules/qr-scanner/types/qr-scanner.d.ts
+index eb4e75c..470688c 100644
+--- a/node_modules/qr-scanner/types/qr-scanner.d.ts
++++ b/node_modules/qr-scanner/types/qr-scanner.d.ts
+@@ -37,12 +37,12 @@ declare class QrScanner {
+         returnDetailedScanResult?: true;
+         domTarget?: HTMLDivElement;
+     });
+-    /** @deprecated */
+-    constructor(video: HTMLVideoElement, onDecode: (result: string) => void, onDecodeError?: (error: Error | string) => void, calculateScanRegion?: (video: HTMLVideoElement) => QrScanner.ScanRegion, preferredCamera?: QrScanner.FacingMode | QrScanner.DeviceId);
+-    /** @deprecated */
+-    constructor(video: HTMLVideoElement, onDecode: (result: string) => void, onDecodeError?: (error: Error | string) => void, canvasSize?: number, preferredCamera?: QrScanner.FacingMode | QrScanner.DeviceId);
+-    /** @deprecated */
+-    constructor(video: HTMLVideoElement, onDecode: (result: string) => void, canvasSize?: number);
++    // /** @deprecated */
++    // constructor(video: HTMLVideoElement, onDecode: (result: string) => void, onDecodeError?: (error: Error | string) => void, calculateScanRegion?: (video: HTMLVideoElement) => QrScanner.ScanRegion, preferredCamera?: QrScanner.FacingMode | QrScanner.DeviceId);
++    // /** @deprecated */
++    // constructor(video: HTMLVideoElement, onDecode: (result: string) => void, onDecodeError?: (error: Error | string) => void, canvasSize?: number, preferredCamera?: QrScanner.FacingMode | QrScanner.DeviceId);
++    // /** @deprecated */
++    // constructor(video: HTMLVideoElement, onDecode: (result: string) => void, canvasSize?: number);
+     hasFlash(): Promise<boolean>;
+     isFlashOn(): boolean;
+     toggleFlash(): Promise<void>;
