@@ -1,11 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+//import QrScanner from "../qr-scanner.min.js";
+
+import * as QrScanner from 'qr-scanner';
 import { html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
+
 import componentStyles from '../../styles/component.styles.js';
-import QrScanner from 'qr-scanner';
+
 import ShoelaceElement from '../../internal/shoelace-element.js';
 import SlButton from '../button/button.js';
 import styles from './qrcode-reader.styles.js';
+
 import type { CSSResultGroup } from 'lit';
 
 /**
@@ -29,6 +37,10 @@ import type { CSSResultGroup } from 'lit';
  */
 
 export default class SlQrcodeReader extends ShoelaceElement {
+  constructor() {
+    super();
+  }
+
   static styles: CSSResultGroup = [componentStyles, styles];
 
   @query('#video-source')
@@ -42,33 +54,34 @@ export default class SlQrcodeReader extends ShoelaceElement {
 
   @state() running = false;
 
-  private qrResult: QrScanner.default.ScanResult = { data: '', cornerPoints: [] };
-  private qrScanner?: QrScanner.default;
+  private qrResult: QrScanner.ScanResult = { data: '', cornerPoints: [] };
+
+  private qrScanner!: QrScanner.QrScanner;
 
   firstUpdated(): void {
-    const onDecode = (result: QrScanner.default.ScanResult) => {
+    const onDecode = (result: QrScanner.ScanResult) => {
       this.qrResult.data = result.data;
       this.QrCode = result.data;
       this.emit('sl-finish');
     };
 
     const onDecodeError = (error: string | Error) => {
-      console.log(error);
+      this.qrResult.data = error.toString();
       this.emit('sl-error');
     };
 
     const options = {
       onDecodeError: onDecodeError,
-      calculateScanRegion: undefined,
+      //calculateScanRegion: null,
       preferredCamera: 'environment', // or a deviceId string
       maxScansPerSecond: 30,
       highlightScanRegion: true,
       highlightCodeOutline: true,
-      overlay: undefined,
+      //overlay: null,
       returnDetailedScanResult: true,
       domTarget: this.shadowRoot // a HTMLDivElement
     };
-    this.qrScanner = new QrScanner.default(this.videoElement, onDecode, options);
+    this.qrScanner = new QrScanner.QrScanner(this.videoElement, onDecode, options);
   }
 
   toggleScanner(): void {
@@ -86,11 +99,11 @@ export default class SlQrcodeReader extends ShoelaceElement {
 
   render() {
     return html`
-      <slot>
-        <video id="video-source"></video>
+      <div>
+        <video id="video-source" style="visibility: visible; display:flex; object-fit: fill; width: 100%;"></video>
         <sl-button @click="${this.toggleScanner}"> ${this.running ? 'Stop' : 'Start'} </sl-button>
         Code:${this.QrCode}
-      </slot>
+      </div>
     `;
   }
 }
